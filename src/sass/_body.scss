@@ -1,0 +1,715 @@
+/*intro*/
+#intro {
+
+    //simpleGradientFill($direction, $defaultColor, $color-stops...)
+    @include simpleGradientFill(0deg, #ececec, #a2a2a2 1px, #cbcbcb 2%, #dfdede 30%, #ececec 100%);
+}
+
+    #introSet {
+        margin: 0 auto;
+        padding:
+            30px
+            (nth($headerSet_padding, 2) + 18px)
+            24px
+            (nth($headerSet_padding, 4) + 18px)
+        ;
+        width: $header_width;
+        max-width: pem($headerSet_maxWidth);
+
+        p {
+            font-size: pem(14px);
+        }
+    }
+
+
+/*////////////main////////////*/
+
+/*view more*/
+.viewMore {
+    
+    $local_fSize: 13px 1.1;
+    
+    //icon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $iconSettings: backgroundImageSettings('moreinfo.png', $units: 'px');
+    $iconSprites_h: 5;
+    $iconSprites_v: 2;
+    $iconWidth: nth($iconSettings, 2) / $iconSprites_h;
+    $iconHeight: nth($iconSettings, 3) / $iconSprites_v;
+    $iconBkg_hInc: getPercentageFrom($iconWidth, nth($iconSettings, 2) - $iconWidth);
+    $iconBkg_vInc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+
+    $icon_gap: 3px;
+    
+    //margin: 0 pem(-8px, $local_fSize) 0 pem(-8px, $local_fSize);
+    padding: 0;
+    font: bold #{pem(nth($local_fSize, 1))}/nth($local_fSize, 2) $fFamily_default;
+    text-align: right;
+    position: relative;
+    
+    @include layoutPaint(#00f00f);
+    
+    &:after {
+        @include clearFix;
+    }
+    
+    .viewMore_link {
+        
+        padding-right: $iconWidth + $icon_gap;
+        display: block;
+        position: relative;
+        float: right;
+        
+        &:link, &:visited {
+            
+            color: nth($linkColor_default, 1);
+            
+            &:after {
+                content: "";
+                right: 0;
+                top: pem(
+                    centerInLine(nth($local_fSize, 1), nth($local_fSize, 2), $iconHeight),
+                    nth($local_fSize, 1)
+                );
+                width: $iconWidth;
+                height: $iconHeight;
+                border-radius: $iconWidth / 2;
+                box-sizing: border-box;
+                background: setBkgImage(nth($linkColor_default, 1), nth($iconSettings, 1), 0 0, no-repeat);
+                background-origin: border-box;
+                background-size: 100% * $iconSprites_h;
+                position: absolute;
+            }
+        
+        }
+        &:active, &:hover {
+            
+            color: nth($linkColor_default, 2);
+            
+            &:after {
+                background-color: nth($linkColor_default,2);
+            }
+        }
+        
+        
+        
+    }
+    
+}
+
+
+/*Items (Default)*/
+
+$item_padding: 0 0 70px 0;
+$item_borderColor: #cccccc;
+$item_bRadius: 3px;
+$image_height: 185px;
+$image_FrameBorder: 0;
+$item_imgBorder: 1px;
+
+.item  {
+    
+    $local_fSize: nth($fSize_default, 1);
+    
+    margin-bottom: 12px;
+    padding: $item_padding;
+    text-align: center;
+    border-radius: $item_bRadius;
+    border: 1px solid $item_borderColor;
+    box-shadow: 2px 2px 3px 1px rgba(#757575, 0.15);
+    font-size: pem($local_fSize);
+    position: relative;
+    background-color: #ffffff;
+    
+    //remove default bullets
+    @include removeDefaultList;
+    @include transitionProps(250ms, ease-in, 0ms, (
+        background-color
+        border-color
+        box-shadow
+    ));
+    @include layoutPaint(#965353);
+
+    &:hover {
+        // color: #ffffff;
+        box-shadow: 2px 2px 3px 1px rgba(#757575, 0.35);
+        border-color: #494b47;
+        z-index: 100;
+        // background-color: #494b47;
+
+        // /*title*/
+        // .title {
+            
+        //     border-bottom: 1px solid $item_borderColor;
+            
+        //     @include layoutPaint(#ffff00);
+            
+        //     // brand
+        //     .brand {
+        //         color: #ffffff;
+        //     }
+
+        //     h2 {
+                
+              
+        //         a:link, a:visited {
+        //             color: #ffffff;
+        //         }
+                
+        //         a:hover, a:active {
+        //             color: #ffffff;
+        //         }
+                
+        //         strong {
+        //         }
+        //     }
+
+            
+        // }
+
+        // /*Image*/
+        // .image {
+
+        //     figure {
+
+        //     }
+            
+        //     a {
+
+        //         &:link, &:visited {
+
+        //             border-bottom-color: #494b47;
+
+        //         }
+
+        //         &:hover, &:active {
+        //         }
+                
+        //         img {
+        //         }
+                
+        //     }
+            
+        //     //@include transition(all, 150ms, ease-in, 0ms);
+        //     @include layoutPaint(#b4e3e5);
+
+        // }
+
+        // /*price*/
+        // .price {
+        //     color: #ffffff;
+            
+        //     p {    
+        //     }
+        
+            
+        // }
+
+    }
+}
+
+    /*title*/
+    .item .title {
+        
+        margin-bottom: 12px;
+        padding: 0 12px 8px;
+        border-bottom: 1px solid $item_borderColor;
+        z-index: 2;
+        
+        @include layoutPaint(#ffff00);
+        
+        // brand
+        .brand {
+            padding-bottom: 2px;
+            font: normal #{pem(12px)}/1.1 $fFamily_default;
+            text-transform: uppercase;
+            color: #4c4b4b;
+            display: block;
+        }
+        
+        h2 {
+            
+            $local_fSize: 21px;
+        
+            padding: 0 0 6px;
+            font: normal #{pem($local_fSize)}/1 $fFamily_default;
+            letter-spacing: -0.045em;
+            text-transform: uppercase;
+            word-wrap: break-word;
+            
+            @include layoutPaint(#000FFF);
+            
+            strong {
+                padding-top: 4px;
+                font: normal #{pem(14px, $local_fSize)}/1 $fFamily_default;
+                color: #517186;
+                display: block;
+            }
+        }
+
+        
+    }
+
+        
+    /*Image*/
+
+    $image_FrameBorder: 0;
+    $item_imgBorder: 1px;
+    $aspectRatio: 3 4;
+
+    .item .image {
+        margin: 
+            0
+            (-(nth($item_padding, 2)))
+            10px
+            (-(nth($item_padding, 4)))
+        ;
+        position: relative;
+        // display: table;
+        z-index: 2;
+        
+        @include layoutPaint(#cccccc);
+        
+        figure {
+            width: 100%;
+            font-size: 0;
+            line-height: 0; 
+            // vertical-align: bottom;
+            // display: table-cell;
+            
+            
+            @include noFontSpaces;
+            @include layoutPaint(#28c471);
+        }
+        
+        a {
+
+            //zoom img
+            //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+            //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+            $zoomImgSettings: backgroundImageSettings('btt_zoom.png', $stretchTo: 80%, $units: 'px');
+            $zoomImgSprites_h: 1;
+            $zoomImgSprites_v: 2;
+            $zoomImgWidth: nth($zoomImgSettings, 2) / $zoomImgSprites_h;
+            $zoomImgHeight: nth($zoomImgSettings, 3) / $zoomImgSprites_v;
+            $zoomImgBkg_hInc: getPercentageFrom($zoomImgWidth, nth($zoomImgSettings, 2) - $zoomImgWidth);
+            $zoomImgBkg_vInc: getPercentageFrom($zoomImgHeight, nth($zoomImgSettings, 3) - $zoomImgHeight);
+            
+
+            &:link, &:visited {
+
+                padding-bottom: setARatio($aspectRatio);
+                width: 100%;
+                height: 0;
+                display: block;
+                position: relative;
+                overflow: hidden;
+                border-top-left-radius: $item_bRadius - 1px;
+                border-top-right-radius: $item_bRadius - 1px;
+                border-bottom: 1px solid $item_borderColor;
+                z-index: 2;
+
+                // background-color: #ff0000;
+
+                &:after {
+                    content: "";
+                    display: block;
+                    right: 4px;
+                    bottom: 4px;
+                    width: $zoomImgWidth;
+                    height: $zoomImgHeight;
+                    position: absolute;
+                    border-radius: 3px;
+                    border: 1px solid #a9a9a9;
+                    box-sizing: border-box;
+                    background: setBkgImage(#ffffff, nth($zoomImgSettings, 1), 0 0, no-repeat);
+                    background-origin: border-box;
+                    background-size: 100%;
+                }
+
+            }
+
+            &:hover, &:active {
+
+                &:after {
+                    background-color: #2f322e;
+                    border-color: #2f322e;
+                    background-position: 0 $zoomImgBkg_vInc;
+                }
+            }
+            
+            img {
+                left: 50%;
+                top: 0;
+                margin: 0 auto;
+                width: auto;
+                height: 100%;
+                position: absolute;
+                transform-origin: center center;
+                @include transforms(
+                    translateX(-50%)
+                    scale(1.05)
+                );
+                //border: $image_imgBorder solid #ffffff;
+            }
+            
+        }
+        
+        //@include transition(all, 150ms, ease-in, 0ms);
+        @include layoutPaint(#b4e3e5);
+
+    }
+    
+    /*description*/    
+    .item .description {
+
+        padding: 0 0 5px 0;
+        //background-color: #7bacad;
+        
+        @include layoutPaint(#7bacad);
+        
+        // data
+        .data {
+
+            margin-bottom: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #cccccc;
+
+            li {
+
+
+                padding: 0 12px 2px;
+                font: normal #{pem(12px)}/1.1 $fFamily_default;
+            }
+        }
+
+
+        p {
+            padding: 0 12px 12px;
+            font-size: pem(14px);
+        }
+        
+    }
+    
+    
+    /*price*/
+    .item .price {
+        padding: 0;
+        bottom: 54px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: $fColor_pvp;
+        white-space: nowrap;
+        position: absolute;
+        //background-color: #cccccc;
+        
+        @include layoutPaint(#00fff0);
+        
+        p {
+            
+            $fZize_pvpMed: 20px 1.1;
+            $local_fSize: $fSize_base;
+            
+            padding: 0;
+            font-size: pem($local_fSize);
+            line-height: 1;
+
+            
+            strong {
+                font: bold #{pem(nth($fZize_pvpMed, 1), $local_fSize)}/#{nth($fZize_pvpMed, 2)} $fFamily_default;
+                letter-spacing: -0.1em;
+                word-spacing: -0.06em;
+                display: block;
+                
+                @include layoutPaint(#a854f7);
+            }
+            
+            strong br {
+                display: none;
+            }
+            
+        }
+    
+        
+    }
+                
+    /*contact*/
+    .item .itemForm {
+        
+        padding: 
+            0
+            12px
+            0
+            12px
+        ;
+        width: 100%;
+        bottom: 18px;
+        left: 0;
+        z-index: 2;
+        position: absolute;
+        
+        @include layoutPaint(#79905a);
+        
+        // default buttons
+        .submitButton.contact {
+            
+            width: 100%;
+
+            // $local_fSize: nth($fSize_button, 1);
+           
+            // //image
+            // //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+            // //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+            // $iconSettings: backgroundImageSettings('btt_comprar.png', $units: 'px');
+            // $iconSprites: 1;
+            // $iconWidth: nth($iconSettings, 2);
+            // $iconHeight: nth($iconSettings, 3) / $iconSprites;
+            // $iconBkg_inc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+            
+            // max-width: 142px;
+
+            // &:after {
+            //     margin-top: -($iconHeight / 2);
+            //     width: $iconWidth;
+            //     height: $iconHeight;
+            //     background: setBkgImage(transparent, nth($iconSettings, 1), nth($iconSettings, 4) 0, no-repeat);
+            //     background-size: 100% auto;              
+            // }
+        }
+
+    }
+    
+/*Items (Sold)*/
+.item.sold {
+
+    $opacity: 0.60;
+
+    overflow: hidden;
+    transition: none;
+
+    &:hover {
+        box-shadow: 2px 2px 3px 1px rgba(#757575, 0.15);
+        border-color: $item_borderColor;
+    }
+
+    &:before {
+        content: "vendido/sold";
+        display: block;
+        padding: 8px 12px;
+        font-size: pem(20px);
+        font-weight: bold;
+        top: 100px;
+        left: 50%;
+        width: 250%;
+        text-transform: uppercase;
+        color: #ffffff;
+        box-sizing: border-box;
+        box-shadow: 0 4px 4px 0 rgba(#000000, 0.45);
+        position: absolute;
+        z-index: 10;
+        background-color: #1b1d1a;
+
+        @include transforms(
+            translateX(-50%)
+            rotate(-45deg)
+        );
+
+    }
+
+     // title
+    .title {
+        
+        opacity: $opacity;
+        
+        // brand
+        
+        h2 {
+
+            a:link, a:visited {
+                pointer-events: none;
+            }
+            
+            a:hover, a:active {
+
+            }
+            
+            strong {
+            }
+
+        } 
+    }
+
+    // Image
+    .image {
+
+        opacity: $opacity;
+
+        figure {
+        }
+        
+        a {
+            pointer-events: none; 
+        }
+    }
+
+    // description    
+    .description {
+        opacity: $opacity;
+    }
+    
+    
+    // price
+    .price {
+        opacity: $opacity;
+    }
+                
+    // contact*
+    .itemForm {
+        
+        opacity: $opacity;
+  
+        // default buttons
+        .submitButton.contact {
+
+        }
+
+    }
+
+}
+
+
+/*Filas*/
+.row {
+    
+    //margin: 0 0 pem(5px);
+    padding: 0;
+    width: 100%;
+    position: relative;
+    
+    @include layoutPaint(#8ebea7);
+    
+    &:after { @include clearFix; }
+}
+
+
+/*contact*/
+#overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    background-color: rgba(#000000, 0.88);
+
+    #contactForm {
+        
+        $local_fSize: 12px;
+
+        padding: 20px 42px 20px 42px;
+        left: 50%;
+        top: 50%;
+        width: 90%;
+        font-size: pem($local_fSize);
+        text-align: center;
+        max-width: 300px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        box-shadow: 4px 4px 6px 0 rgba(#000000, 0.95);
+        background-color: #ffffff;
+
+        .buyItem {
+
+            padding-top: 4px;
+            font-size: pem(16px, $local_fSize);
+            font-weight: bold;
+            line-height: 1.1;
+            letter-spacing: -0.034em;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .submitButton {
+
+            //submitButton03($padding, $width, $height, $image, $defaultColor, $color01, $color02, $hdefaultColor, $hcolor01, $hcolor02, $stop01, $stop02, $borderRadius, $display, $isButton, $base: $fSize_base)
+            @include submitButton01(
+                0 20px 0 20px, //$padding
+                auto, //$width
+                $button_height, //$height
+                none, //$image
+                $button_Color, //$defaultColor
+                darken($button_Color, 15%), //$color01
+                $button_Color, //$color02
+                darken($button_Color, 10%), //$hdefaultColor
+                darken($button_Color, 25%), //$hcolor01
+                darken($button_Color, 10%), //$hcolor02
+                20%, //$stop01
+                100%, //$stop02
+                4px, //$borderRadius
+                inline-block, //$display
+                false //$isButton
+            );
+
+            margin-top: 8px;
+            font-size: pem(nth($fSize_button, 1), $local_fSize);
+        }
+
+        // close
+        .closeMessage {
+
+            //closeIcon
+            //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+            //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+            $closeIconSettings: backgroundImageSettings('fancybox_custom.png', $units: 'px');
+            $closeIconSprites_h: 3;
+            $closeIconSprites_v: 2;
+            $closeIconWidth: nth($closeIconSettings, 2) / $closeIconSprites_h;
+            $closeIconHeight: nth($closeIconSettings, 3) / $closeIconSprites_v;
+            $closeIconBkg_hInc: getPercentageFrom($closeIconWidth, nth($closeIconSettings, 2) - $closeIconWidth);
+            $closeIconBkg_vInc: getPercentageFrom($closeIconHeight, nth($closeIconSettings, 3) - $closeIconHeight);
+            
+            $closeIcon_offset: 5px;
+            
+            padding-top: nth($fbox_iconPadding, 1);
+            right: $closeIcon_offset;
+            top: $closeIcon_offset;
+            width: $closeIconWidth + (nth($fbox_iconPadding, 1) * 2);
+            height: $closeIconHeight  + (nth($fbox_iconPadding, 1) * 2);
+            // border-radius: ($closeIconHeight  + (nth($fbox_iconPadding, 1) * 2) / 2);
+            // display: none;
+            position: absolute;
+            cursor: pointer;
+            z-index: 2000;
+            // box-shadow: 2px 2px 2px 0 rgba(#000000, 0.2);
+            background-color: nth($fbox_iconBgColor, 1);
+            
+            @include noFontSpaces();
+            
+            &:hover, &:active {
+                background-color: nth($fbox_iconBgColor, 2);
+            }
+            
+            &:before {
+                content: "";
+                margin: 0 auto;
+                width: $closeIconWidth;
+                height: $closeIconHeight;
+                // border-radius: $closeIconHeight / 2;
+                // border: nth($fbox_iconBorder, 1) solid #ffffff;
+                display: block;
+                box-sizing: border-box;
+                background: setBkgImage(transparent, nth($closeIconSettings, 1), 0 0, no-repeat);
+                background-origin: border-box;
+                background-size: (100% * $closeIconSprites_h) (100% * $closeIconSprites_v);
+                
+            }
+            
+            @include layoutPaint(#ff0000);
+
+        }
+
+    }
+}
+    

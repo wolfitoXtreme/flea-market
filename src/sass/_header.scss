@@ -1,0 +1,292 @@
+/*////////////HEADER////////////*/
+
+#header h1 {
+    font: bold #{pem(nth($fSize_title, 1))}/nth($fSize_title, 2) $fFamily_title;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: -0.054em;
+    word-wrap: break-word;
+    // word-break: break-all;
+    hyphens: auto;
+}
+
+/*responsive Menu (jQuery)*/
+#responsiveMenu {
+    
+    $rMenu_bgColor: #000000 #1b1b1b #3a3a3a;
+
+    $local_fSize: 0.78em;
+    $item_lHeight: 1.1;
+    $item_padding: 16px 15px 16px 15px;
+    $item_border: 1px;
+
+    
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    display: none;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 10;
+    
+    //simpleGradientFill($direction, $defaultColor, $color-stops...)
+    @include simpleGradientFill(90deg, nth($rMenu_bgColor, 2), nth($rMenu_bgColor, 1) 0%, nth($rMenu_bgColor, 2) 8px, nth($rMenu_bgColor, 3) 100%);
+    
+    #rmWrapper {
+    }
+    
+    
+    h3, h5 {
+        
+        $bgColor: $rMenu_bgColor;
+        
+        padding: 6px 10px 4px;
+        font: normal 0.55em/1.1 $fFamily_default;
+        text-transform: uppercase;
+        color: #ffffff;
+        border-bottom: $item_border solid rgba(255, 255, 255, 0.3);
+
+        @include simpleGradientFill(90deg, darken(nth($bgColor, 2), 8), nth($bgColor, 1) 0%, darken(nth($bgColor, 2), 12%) 8px, darken(nth($bgColor, 3), 12%) 100%);
+
+    }
+    
+    ul {
+        padding: 0;
+    }
+    
+    li {
+        
+        padding: 0;
+        font-size: 0.78em;
+        line-height: $item_lHeight;
+    
+        
+        a {
+            padding: $item_padding;
+            font-family: $fFamily_default;
+            border-bottom: $item_border dotted rgba(255, 255, 255, 0.2);
+            display: block;
+
+            &:link, &:visited {
+                color: #ffffff;
+                text-decoration: none;
+            }
+            
+        
+            &:hover, &:active {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        strong {
+            font-weight: normal;
+        }
+        
+        ul {
+            $bgColor: $rMenu_bgColor;
+        
+            @include simpleGradientFill(90deg, lightnen(nth($bgColor, 2), 8), nth($bgColor, 1) 0%, lighten(nth($bgColor, 2), 5%) 8px, lighten(nth($bgColor, 3), 5%) 100%);
+        }
+        
+        li {
+            
+            $sm_fSize: 0.85em;
+            $sm_lHeight: 1.1;
+            
+            //bullet
+            $bulletWidth: 0.4em;
+            $bulletHeight: $bulletWidth;
+            $bullet_radius: $bulletWidth / 2;
+            $bullet_gap: 4px;
+            
+            font-size: $sm_fSize;
+            line-height: $sm_lHeight;
+            position: relative;
+
+            a { 
+                padding-left: calc(#{$bulletWidth} + #{nth($item_padding, 4) + $bullet_gap});
+                font-family: $fFamily_default;
+                font-weight: normal;
+                position: relative;
+
+                &:before {
+                    content: "";
+                    display: block;
+                    left: nth($item_padding, 4);
+                    top: calc(#{centerInLine(1em, $sm_lHeight, $bulletHeight)} + #{nth($item_padding, 1)});
+                    // top: calc(#{centerInLine(1em, $sm_lHeight, $bulletHeight)} + {nth($item_padding, 1)});
+                    width: $bulletWidth;
+                    height: $bulletHeight;
+                    position: absolute;
+                    background-color: #f0f0f0;                
+                }
+
+            }
+            
+        }
+        
+        // current
+
+    }
+    
+
+    
+    // social networks
+    #r_socialNetworks {
+        
+        //icon
+        //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+        //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+        $iconSettings: backgroundImageSettings('uMenu_snIcons.png', $stretchTo: 80%, $units: 'em');
+        $iconSprites_h: 2;
+        $iconSprites_v: 2;
+        $iconWidth: nth($iconSettings, 2) / $iconSprites_h;
+        $iconHeight: nth($iconSettings, 3) / $iconSprites_v;
+        $iconBkg_hInc: getPercentageFrom($iconWidth, nth($iconSettings, 2) - $iconWidth);
+        $iconBkg_vInc: getPercentageFrom($iconHeight, nth($iconSettings, 3) - $iconHeight);
+        $iconGap: 5px;
+        
+        
+        li {
+
+            // default wallapop
+            a:link, a:visited {
+                padding-left: calc(#{$iconWidth} + #{nth($item_padding, 4) + $iconGap});
+                position: relative;
+
+                
+                &:before {
+                    content: "";
+                    left: nth($item_padding, 4);
+                    top: calc(#{centerInLine(1em, $item_lHeight, $iconHeight)} + #{nth($item_padding, 1)});
+                    width: $iconWidth;
+                    height: $iconHeight;
+                    border-radius: $iconHeight / 2;
+                    display: block;
+                    text-indent: 200%;
+                    overflow: hidden;
+                    position: absolute;
+                    box-sizing: border-box;
+                    background: setBkgImage(#ffffff, nth($iconSettings, 1), nth($iconSettings, 4) $iconBkg_vInc, no-repeat);
+                    background-origin: border-box;
+                    background-size: (100% * $iconSprites_h) (100% * $iconSprites_v);
+     
+                }
+                
+            }
+
+            a:hover, a:active {
+                &:before {
+                    // background-color: rgba(#000000, 0.5);
+                }
+            }
+
+        }
+        
+
+        // contact
+        .contact {
+            
+            $spritePos: ($iconBkg_hInc * 1);
+            
+            a:link, a:visited {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+            a:hover, a:active {
+                &:before {
+                    background-position: $spritePos $iconBkg_vInc;
+                }
+            }
+            
+        }
+        
+
+    }
+    
+}
+
+// responsive menu Icon
+
+// icon
+// backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+// @return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+$rmIconSettings: backgroundImageSettings('rmmenu_Icon.png', $units: 'px');
+$rmIconSprites_h: 4;
+$rmIconSprites_v: 1;
+$rmIconWidth: nth($rmIconSettings, 2) / $rmIconSprites_h;
+$rmIconHeight: nth($rmIconSettings, 3) / $rmIconSprites_v;
+$rmIconBkg_hInc: getPercentageFrom($rmIconWidth, nth($rmIconSettings, 2) - $rmIconWidth);
+$rmIconBkg_vInc: getPercentageFrom($rmIconHeight, nth($rmIconSettings, 3) - $rmIconHeight);
+$rmIconBkg_vInc: 0;
+
+$rmIcon_top: 0;
+$rmIcon_right: nth($headerSet_padding, 2);
+$rmIcon_gap: 6px;
+
+#rmmenu_Icon {
+    
+    $sprite_hInc: 0;
+    $sprite_vInc: 0;
+    
+    right: $rmIcon_right;
+    top: $rmIcon_top;
+    width: $rmIconWidth;
+    height: $rmIconHeight;
+    text-indent: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 200;
+    cursor: pointer;
+    opacity: 0.5;
+    display: none;
+    background: setBkgImage(transparent, nth($rmIconSettings, 1), ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc), no-repeat);
+    background-origin: border-box;
+    background-size: (100% * $rmIconSprites_h) (100% * $rmIconSprites_v);
+
+
+    @include transitionProps(350ms, ease-in, 0ms, (opacity));
+    @include layoutPaint(#2ab912, $forceDebug: true);
+    
+    &:hover, &:active {
+        opacity: 1;
+        // background-position: ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc); 
+    }
+
+    &.open {
+
+        $sprite_hInc: 1;
+        
+        background-position: ($rmIconBkg_hInc * $sprite_hInc) ($rmIconBkg_vInc * $sprite_vInc);
+
+    }
+
+    &.running {
+        animation: rmmenu_Icon_FX 800ms ease 0ms 1 forwards;
+    }
+    
+}
+
+/*Animation - rmmenu_Icon*/
+@include keyframes(rmmenu_Icon_FX) {
+    
+    0% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    
+
+    50% {
+        transform: scale(0, 0);
+        opacity: 0.6;
+    }
+    
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}

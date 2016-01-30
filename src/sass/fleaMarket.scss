@@ -1,0 +1,181 @@
+/*!@license Copyright (c) 2015 Cesar Candela
+* www.cssguy4hire.com 
+*/
+
+// DEFAULT FUNCTIONS AND MIXNINS
+@import 'functions';
+@import 'mixins';
+
+// setup
+@import 'setup';
+
+// DEFAULT STYLES
+@import 'default';
+
+// LAYOUT
+@import 'layout';
+
+/*////////////////////////////////*/
+/*////////////ELEMENTS////////////*/
+/*////////////////////////////////*/
+
+// HEADER
+@import 'header';
+
+// BODY
+@import 'body';
+
+// FOOTER
+@import 'footer';
+
+
+/*////////////LAYOUT////////////*/
+
+// redefine default layout
+
+
+/*header*/
+#header {
+}
+
+/*ContentSet*/
+
+
+
+/*////////////HEADER////////////*/
+
+/*main menu*/
+
+
+/*header menu*/
+
+
+/*responsive Menu (jQuery)*/
+
+
+// responsive menu Icon
+
+// icon
+
+/*////////////MAIN////////////*/
+
+/*////////////NAV COLUMN////////////*/
+
+/*////////////SIDEBAR COLUMN////////////*/
+
+
+/*////////////FOTER////////////*/
+
+/*footer menu*/
+#footer #footerMenu {
+
+    $fMenu_height: nth($footer_borderWidth, 1);
+    $fMenu_fSize: 0.88em;
+    $fMenu_lineHeight: 1.1;
+    $fMenu_padding: 0 0 0 0;
+    $fMenu_linkColor: #ffffff nth($linkColor_default, 1);
+
+    //bullet
+    $bullet_gap: 2px;
+    $bulletWidth: 0.38em;
+    $bulletHeight: $bulletWidth;
+
+    left: 0;
+    top: -(nth($footer_borderWidth, 1));
+    padding: $fMenu_padding;
+    width: $footer_width;
+    height: $fMenu_height;
+    position: absolute;
+    z-index: 10; 
+    
+    @include layoutPaint(#cbc011);
+    
+    ul {
+        padding: 0 0 0 nth($footerSet_padding, 4);
+
+        &:after {
+            @include clearFix;
+        }
+    }
+    
+    li {
+        
+        $local_fSize: 1em;
+        $padding: 
+            (
+                ($fMenu_height - (emp($fMenu_fSize) * $fMenu_lineHeight)) 
+            / 2)
+            0 
+            0 
+            6px
+        ;
+
+        padding: $padding;
+        font-size: $local_fSize;
+        float: left;
+        position: relative;
+
+        @include layoutPaint(#13c634);
+
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        
+        a:link, a:visited {
+
+            padding: 0 0 0 calc(#{$bulletWidth} + #{$bullet_gap});
+            font: normal #{$fMenu_fSize}/$fMenu_lineHeight $fFamily_default;
+            // text-transform: uppercase;
+            color: nth($fMenu_linkColor, 1);
+            text-decoration: none;
+            display: block;
+            position: relative;
+            
+            @include layoutPaint(#000000);
+            
+
+            &:before {
+                content: "";
+                top: centerInLine($local_fSize, $fMenu_lineHeight, $bulletHeight);
+                left: 0;
+                font-size: 1em;
+                width: $bulletWidth;
+                height: $bulletHeight;
+                border-radius: $bulletWidth/2;
+                display: block;
+                position: absolute;
+                // box-sizing: border-box;
+                background-color: nth($fMenu_linkColor, 1);
+            }
+
+            strong {
+                font-weight: normal;
+            }
+
+        }
+        
+        a:hover, a:active {
+            color: nth($fMenu_linkColor, 2);
+            //text-decoration: underline;
+            
+            &:before {
+                background-color: nth($fMenu_linkColor, 2);
+            }
+        }
+    
+        
+    }
+    
+
+}
+
+
+
+
+
+
+
+// MEDIAQUERIES
+@import 'mediaQueries';

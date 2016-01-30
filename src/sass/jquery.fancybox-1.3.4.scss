@@ -1,0 +1,456 @@
+/*!
+ * FancyBox - jQuery Plugin
+ * Simple and fancy lightbox alternative
+ *
+ * Examples and documentation at: http://fancybox.net
+ * 
+ * Copyright (c) 2008 - 2010 Janis Skarnelis
+ * That said, it is hardly a one-person project. Many people have submitted bugs, code, and offered their advice freely. Their support is greatly appreciated.
+ * 
+ * Version: 1.3.4 (11/11/2010)
+ * Requires: jQuery v1.3+
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ */
+ 
+ @import 'setup';
+
+#fancybox-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1104;
+    display: none;
+}
+
+#fancybox-loading div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 480px;
+    background-image: url('../img/fancybox.png');
+}
+
+#fancybox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+    display: none;
+}
+
+#fancybox-tmp {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: auto;
+    display: none;
+}
+
+#fancybox-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: content-box;
+    z-index: 1101;
+    outline: none;
+    display: none;   
+}
+
+#fancybox-outer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: $fbox_borderRadius + 1;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
+    
+    background: #fff;
+}
+
+#fancybox-content {
+    width: 0;
+    height: 0;
+    padding: 0;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1102;
+    box-sizing: content-box;
+    border: 0 solid $fbox_borderColor;
+    border-radius: $fbox_borderRadius;
+    
+    > div {
+        border-radius: $fbox_borderRadius;
+    }
+    
+}
+
+#fancybox-hide-sel-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 1101;
+}
+
+#fancybox-close {
+
+    //closeIcon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $closeIconSettings: backgroundImageSettings('fancybox_custom.png', $units: 'px');
+    $closeIconSprites_h: 3;
+    $closeIconSprites_v: 2;
+    $closeIconWidth: nth($closeIconSettings, 2) / $closeIconSprites_h;
+    $closeIconHeight: nth($closeIconSettings, 3) / $closeIconSprites_v;
+    $closeIconBkg_hInc: getPercentageFrom($closeIconWidth, nth($closeIconSettings, 2) - $closeIconWidth);
+    $closeIconBkg_vInc: getPercentageFrom($closeIconHeight, nth($closeIconSettings, 3) - $closeIconHeight);
+    
+    $closeIcon_offset: $closeIconWidth / 3;
+    
+    padding-top: nth($fbox_iconPadding, 1);
+    right: $closeIcon_offset;
+    top: $closeIcon_offset;
+    width: $closeIconWidth + (nth($fbox_iconPadding, 1) * 2);
+    height: $closeIconHeight  + (nth($fbox_iconPadding, 1) * 2);
+    // border-radius: ($closeIconHeight  + (nth($fbox_iconPadding, 1) * 2) / 2);
+    display: none;
+    position: absolute;
+    cursor: pointer;
+    z-index: 2000;
+    // box-shadow: 2px 2px 2px 0 rgba(#000000, 0.2);
+    background-color: nth($fbox_iconBgColor, 1);
+    
+    @include noFontSpaces();
+    
+    &:before {
+        content: "";
+        margin: 0 auto;
+        width: $closeIconWidth;
+        height: $closeIconHeight;
+        // border-radius: $closeIconHeight / 2;
+        // border: nth($fbox_iconBorder, 1) solid #ffffff;
+        display: block;
+        box-sizing: border-box;
+        background: setBkgImage(transparent, nth($closeIconSettings, 1), 0 0, no-repeat);
+        background-origin: border-box;
+        background-size: (100% * $closeIconSprites_h) (100% * $closeIconSprites_v);
+        
+    }
+
+    &:hover, &:active {
+        background-color: nth($fbox_iconBgColor, 2);
+
+        &:before {
+            $spritePos: ($closeIconBkg_vInc * 1);
+
+            background-position: 0 $spritePos;
+        }
+
+    }
+    
+    @include layoutPaint(#ff0000);    
+    
+}
+
+#fancybox-error {
+    color: #444;
+    font: normal 12px/20px Arial;
+    padding: 14px;
+    margin: 0;
+}
+
+#fancybox-img {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    line-height: 0;
+    vertical-align: top;
+    border-radius: $fbox_borderRadius;
+}
+
+#fancybox-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+#fancybox-left, #fancybox-right {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 35%;
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    z-index: 1102;
+    display: none;
+}
+/**/
+
+#fancybox-left {
+    left: 0;
+}
+
+#fancybox-right {
+    right: 0;
+}
+
+#fancybox-left-ico, #fancybox-right-ico {
+    
+    //dirIcon
+    //backgroundImageSettings($image, $stretchTo: 100%, $sprite_left: 0%, $bkg-size: 100%, $base: $fSize_base, $units: 'px')
+    //@return ($image, $width, $height, $sprite_left, $bkg-size, $units, $image_width, $image_height)
+    $dirIconSettings: backgroundImageSettings('fancybox_custom.png', $units: 'px');
+    $dirIconSprites_h: 3;
+    $dirIconSprites_v: 2;
+    $dirIconWidth: nth($dirIconSettings, 2) / $dirIconSprites_h;
+    $dirIconHeight: nth($dirIconSettings, 3) / $dirIconSprites_v;
+    $dirIconBkg_hInc: getPercentageFrom($dirIconWidth, nth($dirIconSettings, 2) - $dirIconWidth);
+    $dirIconBkg_vInc: getPercentageFrom($dirIconHeight, nth($dirIconSettings, 3) - $dirIconHeight);
+    
+    $dirIcon_offset: $dirIconWidth / 3;
+
+    padding-top: nth($fbox_iconPadding, 1);
+    top: 50%;
+    // left: -9999px;
+    width: $dirIconWidth + (nth($fbox_iconPadding, 1) * 2);
+    height: $dirIconHeight  + (nth($fbox_iconPadding, 1) * 2);
+    margin-top: -($dirIconHeight  + (nth($fbox_iconPadding, 1) * 2)) / 2;
+    // border-radius: ($dirIconHeight  + (nth($fbox_iconPadding, 1) * 2) / 2);
+    position: absolute;
+    cursor: pointer;
+    z-index: 2000;
+    display: block;
+    // box-shadow: 2px 2px 2px 0 rgba(#000000, 0.2);
+    background-color: nth($fbox_iconBgColor, 1);
+    
+    @include noFontSpaces();
+    
+    &:hover, &:active {
+        background-color: nth($fbox_iconBgColor, 2);
+    }
+    
+    &:before {
+        content: "";
+        margin: 0 auto;
+        width: $dirIconWidth;
+        height: $dirIconHeight;
+        // border-radius: $dirIconHeight / 2;
+        // border: nth($fbox_iconBorder, 1) solid #ffffff;
+        display: block;
+        box-sizing: border-box;
+        background-origin: border-box;
+        background: setBkgImage(transparent, nth($dirIconSettings, 1), 0 0, no-repeat);
+        background-size: (100% * $dirIconSprites_h) (100% * $dirIconSprites_v);
+    }
+    
+    &#fancybox-left-ico {
+
+        left: 20px;
+
+        &:before {
+            background-position: ($dirIconBkg_hInc * 1) 0;
+        }
+        
+    }
+    
+    &#fancybox-right-ico {
+
+        left: auto;
+        right: 20px;
+
+        &:before {
+            background-position: ($dirIconBkg_hInc * 2) 0;
+        }
+    }
+
+    &#fancybox-left-ico:hover, &#fancybox-left-ico:active {
+         
+        &:before {
+            background-position: ($dirIconBkg_hInc * 1) ($dirIconBkg_vInc * 1);
+        }
+    }
+
+    &#fancybox-right-ico:hover, &#fancybox-right-ico:active {
+         
+        &:before {
+            background-position: ($dirIconBkg_hInc * 2) ($dirIconBkg_vInc * 1);
+        }
+    }
+
+}
+
+
+
+#fancybox-left:hover, #fancybox-right:hover {
+    visibility: visible; /* IE6 */
+}
+
+#fancybox-left:hover span {
+    // left: 20px;
+}
+
+#fancybox-right:hover span {
+    // left: auto;
+    // right: 20px;
+}
+
+.fancybox-bg {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 1001;
+}
+
+#fancybox-bg-n {
+    top: -20px;
+    left: 0;
+    width: 100%;
+    /*background-image: url('../img/fancyBox/fancybox-x.png');*/
+}
+
+#fancybox-bg-ne {
+    top: -20px;
+    right: -20px;
+    /*background-image: url('../img/fancybox.png');
+    background-position: -40px -162px;*/
+}
+
+#fancybox-bg-e {
+    top: 0;
+    right: -20px;
+    height: 100%;
+    /*background-image: url('../img/fancyBox/fancybox-y.png');
+    background-position: -20px 0;*/
+}
+
+#fancybox-bg-se {
+    bottom: -20px;
+    right: -20px;
+    /*background-image: url('../img/fancybox.png');
+    background-position: -40px -182px;*/ 
+}
+
+#fancybox-bg-s {
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    /*background-image: url('../img/fancyBox/fancybox-x.png');
+    background-position: 0 -20px;*/
+}
+
+#fancybox-bg-sw {
+    bottom: -20px;
+    left: -20px;
+    /*background-image: url('../img/fancybox.png');
+    background-position: -40px -142px;*/
+}
+
+#fancybox-bg-w {
+    top: 0;
+    left: -20px;
+    /*height: 100%;
+    background-image: url('../img/fancyBox/fancybox-y.png');*/
+}
+
+#fancybox-bg-nw {
+    top: -20px;
+    left: -20px;
+    /*background-image: url('../img/fancybox.png');
+    background-position: -40px -122px;*/
+}
+
+#fancybox-title {
+    font: $fbox_fWeight #{nth($fbox_fSize, 1)}/#{nth($fbox_fSize, 2)} $fbox_fFamily;
+    letter-spacing: -0.034em;
+    text-align: center;
+    z-index: 1102;
+
+    /*background: #FF0000;*/
+}
+
+.fancybox-title-inside {
+    padding-bottom: 16px;
+    /*text-align: center;*/
+    color: $fbox_textColor;
+    background: #fff;
+    position: relative;
+}
+
+.fancybox-title-outside {
+    padding-top: 10px;
+    color: #fff;
+}
+
+.fancybox-title-over {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    text-align: left;
+}
+
+#fancybox-title-over {
+    padding: 10px;
+    background-image: url('../img/fancyBox/fancy_title_over.png');
+    display: block;
+}
+
+.fancybox-title-float {
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+    height: 32px;
+}
+
+#fancybox-title-float-wrap {
+    border: none;
+    border-collapse: collapse;
+    width: auto;
+}
+
+#fancybox-title-float-wrap td {
+    border: none;
+    white-space: nowrap;
+}
+
+#fancybox-title-float-left {
+    padding: 0 0 0 15px;
+    background: url('../img/fancybox.png') -40px -90px no-repeat;
+}
+
+#fancybox-title-float-main {
+    color: #FFF;
+    line-height: 29px;
+    font-weight: bold;
+    padding: 0 0 3px 0;
+    background: url('../img/fancyBox/fancybox-x.png') 0 -40px;
+}
+
+#fancybox-title-float-right {
+    padding: 0 0 0 15px;
+    background: url('../img/fancybox.png') -55px -90px no-repeat;
+}
+
+/*Explorer styles relocated in explorer.css*/

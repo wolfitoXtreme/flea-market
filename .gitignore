@@ -1,0 +1,14 @@
+# Dependency directory
+# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+node_modules
+
+# sass
+.sass-cache/
+
+# php setup
+dist/includes/functions.inc.php
+src/includes/functions.inc.php
+
+# images
+dist/img/*.jpg
+src/img/*.jpg 
