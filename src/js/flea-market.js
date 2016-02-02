@@ -14,9 +14,9 @@ $(document).ready(function () {
         'x-small',
         'small',
         'medium',
-        'large'//,
-        //'x-small-landscape',
-        //'small-landscape',
+        'large',
+        'x-small-landscape',
+        'small-landscape'//,
         //'medium-landscape',
         //'large-landscape'
     ];
@@ -61,10 +61,19 @@ $(document).ready(function () {
 
     $('.viewMore_link').hide();
 
+    var loadingGraph = $('<div id="loadingGraph"><span></span><span></span><span></span><span></span></div>')
+        loadContainer = $('#main .row.sameHeightList')[0]
+    ;
+
     var infinite = new Waypoint.Infinite({
-        element: $('#main .row.sameHeightList')[0],
+        element: loadContainer,
         items: '.item',
         more: '.viewMore_link',
+        onBeforePageLoad: function() {
+            
+            // add loading graph
+            $(loadContainer).after(loadingGraph);
+        },
         onAfterPageLoad: function(items) {
 
             console_log('---> ' + items.length);
@@ -94,6 +103,8 @@ $(document).ready(function () {
                 setContact($(this));
             });
 
+            // remove loading graph
+            $(loadingGraph).remove();
 
         }
     });
@@ -492,6 +503,16 @@ $(document).ready(function () {
                             }
                         });
 
+                        // contact
+                        var contactBtt = $('.submitButton', content);
+
+                        $(contactBtt).on({
+                            'click' : function(event) {
+                                event.preventDefault();
+                                window.open($(this).attr('href'), '_blank');
+                            }
+                        });
+
                     },
                     error : function(event, request, settings) {
                         console.log('error retrieving data!!');
@@ -724,6 +745,17 @@ $(document).ready(function () {
 
         }, 10);
 
+        // close fancyBox if any
+        if($('#fancybox-wrap').is(':visible')) {
+            console_log('closing fancyBox');
+            $.fancybox.close();
+        }
+
+        // close fancyBox if any
+        if($('#overlay').is(':visible')) {
+            // $('#overlay').remove();
+        }
+
         // set dummy classes for BreakingPoints detection
         for (var i=0; i<breakingPoints.length; i++) {
             
@@ -734,12 +766,6 @@ $(document).ready(function () {
                     $('body').addClass(breakingPoints[i]);
                     
                     console_log('NEW dummy class [' + breakingPoints[i] + '] is visible');
-
-                    // close fancyBox if any
-                    if($('#fancybox-wrap').is(':visible')) {
-                        console_log('closing fancyBox');
-                        $.fancybox.close();
-                    }
                 
                     // reset previous opened elements if needed
                     switch (breakingPoints[i]) {

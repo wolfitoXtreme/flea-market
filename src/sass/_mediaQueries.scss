@@ -341,3 +341,77 @@
     
 
 }
+
+@include mediaQuery('small-landscape') {
+
+    #container:before {
+        @include queryInfo("small-landscape #{nth($breakValues, 1)}");
+    }
+
+    /*contact*/
+    #overlay {
+
+        #contactForm {
+            
+            width: 95%;
+            max-width: 500px;
+
+
+            .inner {
+
+                max-height: 180px;
+                overflow: auto;
+                
+                &:hover {
+                    // overflow: auto;
+                }
+
+            }
+
+
+            // image
+            .image {
+                display: none;
+            }
+
+        }
+    }
+
+}
+
+@include mediaQuery('x-small-landscape') {
+
+    #container:before {
+        @include queryInfo("x-small-landscape 0");
+    }
+
+    /*contact*/
+    #overlay {
+
+        #contactForm {
+            
+            width: 95%;
+            max-width: 500px;
+
+
+            .inner {
+
+                max-height: 180px;
+                overflow: auto;
+                
+                &:hover {
+                    // overflow: auto;
+                }
+
+            }
+
+
+            // image
+            .image {
+                display: none;
+            }
+
+        }
+    }
+
+}

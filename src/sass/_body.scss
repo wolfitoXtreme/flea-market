@@ -233,7 +233,7 @@ $item_imgBorder: 1px;
             $local_fSize: 21px;
         
             padding: 0 0 6px;
-            font: normal #{pem($local_fSize)}/1 $fFamily_default;
+            font: bold #{pem($local_fSize)}/0.9 $fFamily_title;
             letter-spacing: -0.045em;
             text-transform: uppercase;
             word-wrap: break-word;
@@ -388,6 +388,7 @@ $item_imgBorder: 1px;
         p {
             padding: 0 12px 12px;
             font-size: pem(14px);
+            line-height: 1.1;
         }
         
     }
@@ -418,7 +419,7 @@ $item_imgBorder: 1px;
 
             
             strong {
-                font: bold #{pem(nth($fZize_pvpMed, 1), $local_fSize)}/#{nth($fZize_pvpMed, 2)} $fFamily_default;
+                font: bold #{pem(nth($fZize_pvpMed, 1), $local_fSize)}/#{nth($fZize_pvpMed, 2)} $fFamily_price;
                 letter-spacing: -0.1em;
                 word-spacing: -0.06em;
                 display: block;
@@ -593,6 +594,69 @@ $item_imgBorder: 1px;
     &:after { @include clearFix; }
 }
 
+/*loading graph*/
+#loadingGraph {
+    
+    $dotWidth: 20px;
+    $dotHeight: $dotWidth;
+    $dotGap: 3px;
+
+    margin: 20px 0;
+    text-align: center;
+
+    @include noFontSpaces();
+
+
+    span {
+
+        $dotTiming: 50ms;
+        $dotDuration: 1200ms;
+        $dotsAmount: 5;
+
+        margin-right: $dotGap;
+        width: $dotWidth;
+        height: $dotHeight;
+        border-radius: 100%; 
+        display: inline-block;
+        background-color: rgba(#000000, 0.30);
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        @for $i from 0 through $dotsAmount + 1 {
+            &:nth-child(#{$i}) {
+                animation: loadingDots_FX $dotDuration ease-in-out ($dotTiming * $i) infinite forwards;
+            }
+        }
+
+
+
+
+    }
+}
+
+
+/*Animation - rmmenu_Icon*/
+@include keyframes(loadingDots_FX) {
+    
+    0% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    
+
+    40% {
+        transform: scale(0, 0);
+        opacity: 0.2;
+    }
+    
+    80% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+
 
 /*contact*/
 #overlay {
@@ -607,28 +671,79 @@ $item_imgBorder: 1px;
     #contactForm {
         
         $local_fSize: 12px;
+        $fZize_pvpMed: 16px 1.1;
 
-        padding: 20px 42px 20px 42px;
+        padding: 30px 20px 20px 20px;
         left: 50%;
         top: 50%;
         width: 90%;
         font-size: pem($local_fSize);
+        line-height: 1.2;
         text-align: center;
         max-width: 300px;
         position: absolute;
         transform: translate(-50%, -50%);
+        transform-origin: center center;
         box-shadow: 4px 4px 6px 0 rgba(#000000, 0.95);
         background-color: #ffffff;
 
         .buyItem {
 
             padding-top: 4px;
-            font-size: pem(16px, $local_fSize);
+            font-size: pem(14px, $local_fSize);
             font-weight: bold;
-            line-height: 1.1;
+            line-height: 1;
             letter-spacing: -0.034em;
             text-transform: uppercase;
             display: block;
+        }
+
+        .price {
+            padding-top: 4px;
+            font: bold #{pem(nth($fZize_pvpMed, 1), $local_fSize)}/#{nth($fZize_pvpMed, 2)} $fFamily_price;
+            letter-spacing: -0.1em;
+            word-spacing: -0.06em;
+            display: block;
+        }
+
+        // image
+        .image {
+
+            margin-bottom: 10px;
+
+            figure {
+                margin: 0 auto;
+                font-size: 0;
+                line-height: 0;
+                
+
+                @include noFontSpaces;
+                @include layoutPaint(#28c471);
+            }
+            
+            span {
+                margin: 0 auto;
+                height: 90px;
+                display: inline-block;
+                position: relative;
+                overflow: hidden;
+                z-index: 2;
+                border: 1px solid #ffffff;
+                border-radius: $item_bRadius;
+                box-shadow: 2px 2px 8px 1px rgba(#000000, 0.38);
+                transform: translate(0, 0);
+
+                img {
+                    margin: 0 auto;
+                    width: auto;
+                    height: 90px;
+                    position: relative;
+                }
+                
+            }
+
+
+
         }
 
         .submitButton {

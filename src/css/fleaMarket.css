@@ -186,10 +186,11 @@ select option {
 /*Buttons*/
 .submitButton {
   margin: 0;
-  padding: 0em 1.53846em 0em 1.53846em;
+  padding: 0em 1.66667em 0em 1.66667em;
   width: auto;
-  height: 2.30769em;
-  font: normal 0.8125em/1.1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  height: 2.5em;
+  font: normal 0.75em/1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #ffffff;
   text-decoration: none;
@@ -213,7 +214,7 @@ select option {
   transition: background-color 50ms ease-in 0ms, transform 50ms ease-in 0ms, -webkit-transform 50ms ease-in 0ms;
 }
 .submitButton span {
-  text-shadow: rgba(0, 0, 0, 0.21) -1px -1px 0;
+  text-shadow: rgba(0, 0, 0, 0.31) -1px -1px 0;
   white-space: nowrap;
   display: inline-block;
   overflow: visible;
@@ -640,7 +641,7 @@ img {
 }
 .item .title h2 {
   padding: 0 0 6px;
-  font: normal 1.3125em/1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  font: bold 1.3125em/0.9 Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
   letter-spacing: -0.045em;
   text-transform: uppercase;
   word-wrap: break-word;
@@ -726,6 +727,7 @@ img {
 .item .description p {
   padding: 0 12px 12px;
   font-size: 0.875em;
+  line-height: 1.1;
 }
 
 /*price*/
@@ -825,6 +827,88 @@ img {
   position: relative;
 }
 
+/*loading graph*/
+#loadingGraph {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 0;
+  line-height: 0;
+}
+#loadingGraph span {
+  margin-right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#loadingGraph span:last-child {
+  margin-right: 0;
+}
+#loadingGraph span:nth-child(0) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 0ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 0ms infinite forwards;
+}
+#loadingGraph span:nth-child(1) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 50ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 50ms infinite forwards;
+}
+#loadingGraph span:nth-child(2) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 100ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 100ms infinite forwards;
+}
+#loadingGraph span:nth-child(3) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 150ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 150ms infinite forwards;
+}
+#loadingGraph span:nth-child(4) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 200ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 200ms infinite forwards;
+}
+#loadingGraph span:nth-child(5) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 250ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 250ms infinite forwards;
+}
+#loadingGraph span:nth-child(6) {
+  -webkit-animation: loadingDots_FX 1200ms ease-in-out 300ms infinite forwards;
+          animation: loadingDots_FX 1200ms ease-in-out 300ms infinite forwards;
+}
+
+/*Animation - rmmenu_Icon*/
+@-webkit-keyframes loadingDots_FX {
+  0% {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+    opacity: 1;
+  }
+  40% {
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+    opacity: 0.2;
+  }
+  80% {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+@keyframes loadingDots_FX {
+  0% {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+    opacity: 1;
+  }
+  40% {
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+    opacity: 0.2;
+  }
+  80% {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+    opacity: 1;
+  }
+}
 /*contact*/
 #overlay {
   left: 0;
@@ -836,34 +920,74 @@ img {
   background-color: rgba(0, 0, 0, 0.88);
 }
 #overlay #contactForm {
-  padding: 20px 42px 20px 42px;
+  padding: 30px 20px 20px 20px;
   left: 50%;
   top: 50%;
   width: 90%;
   font-size: 0.75em;
+  line-height: 1.2;
   text-align: center;
   max-width: 300px;
   position: absolute;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
   box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.95);
   background-color: #ffffff;
 }
 #overlay #contactForm .buyItem {
   padding-top: 4px;
-  font-size: 1.33333em;
+  font-size: 1.16667em;
   font-weight: bold;
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: -0.034em;
   text-transform: uppercase;
   display: block;
 }
+#overlay #contactForm .price {
+  padding-top: 4px;
+  font: bold 1.33333em/1.1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  letter-spacing: -0.1em;
+  word-spacing: -0.06em;
+  display: block;
+}
+#overlay #contactForm .image {
+  margin-bottom: 10px;
+}
+#overlay #contactForm .image figure {
+  margin: 0 auto;
+  font-size: 0;
+  line-height: 0;
+  font-size: 0;
+  line-height: 0;
+}
+#overlay #contactForm .image span {
+  margin: 0 auto;
+  height: 90px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.38);
+  -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+#overlay #contactForm .image span img {
+  margin: 0 auto;
+  width: auto;
+  height: 90px;
+  position: relative;
+}
 #overlay #contactForm .submitButton {
   margin: 0;
-  padding: 0em 1.53846em 0em 1.53846em;
+  padding: 0em 1.66667em 0em 1.66667em;
   width: auto;
-  height: 2.30769em;
-  font: normal 0.8125em/1.1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  height: 2.5em;
+  font: normal 0.75em/1 "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #ffffff;
   text-decoration: none;
@@ -885,12 +1009,12 @@ img {
   transition: background-color 50ms ease-in 0ms, -webkit-transform 50ms ease-in 0ms;
   transition: background-color 50ms ease-in 0ms, transform 50ms ease-in 0ms;
   transition: background-color 50ms ease-in 0ms, transform 50ms ease-in 0ms, -webkit-transform 50ms ease-in 0ms;
-  padding-top: 0.60385em;
+  padding-top: 0.75em;
   margin-top: 8px;
-  font-size: 1.08333em;
+  font-size: 1em;
 }
 #overlay #contactForm .submitButton span {
-  text-shadow: rgba(0, 0, 0, 0.21) -1px -1px 0;
+  text-shadow: rgba(0, 0, 0, 0.31) -1px -1px 0;
   white-space: nowrap;
   display: inline-block;
   overflow: visible;
@@ -1141,21 +1265,6 @@ img {
   display: none;
   z-index: 100;
   position: absolute;
-  width: 6.25em;
-  height: 6.25em;
-  background-color: #00ffff;
-}
-#x-small:after {
-  padding: 0.625em;
-  left: 0;
-  top: 0;
-  content: "x-small";
-  font-size: 1rem;
-  color: #ffffff;
-  border: 0.125rem;
-  display: block;
-  position: absolute;
-  background-color: #000000;
 }
 
 #small {
@@ -1168,21 +1277,6 @@ img {
   display: none;
   z-index: 100;
   position: absolute;
-  width: 6.25em;
-  height: 6.25em;
-  background-color: #00ffff;
-}
-#small:after {
-  padding: 0.625em;
-  left: 0;
-  top: 0;
-  content: "small";
-  font-size: 1rem;
-  color: #ffffff;
-  border: 0.125rem;
-  display: block;
-  position: absolute;
-  background-color: #000000;
 }
 
 #medium {
@@ -1195,21 +1289,6 @@ img {
   display: none;
   z-index: 100;
   position: absolute;
-  width: 6.25em;
-  height: 6.25em;
-  background-color: #00ffff;
-}
-#medium:after {
-  padding: 0.625em;
-  left: 0;
-  top: 0;
-  content: "medium";
-  font-size: 1rem;
-  color: #ffffff;
-  border: 0.125rem;
-  display: block;
-  position: absolute;
-  background-color: #000000;
 }
 
 #large {
@@ -1222,28 +1301,59 @@ img {
   display: none;
   z-index: 100;
   position: absolute;
-  width: 6.25em;
-  height: 6.25em;
-  background-color: #00ffff;
 }
-#large:after {
-  padding: 0.625em;
+
+#x-small-landscape {
   left: 0;
   top: 0;
-  content: "large";
-  font-size: 1rem;
-  color: #ffffff;
-  border: 0.125rem;
-  display: block;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: none;
+  z-index: 100;
   position: absolute;
-  background-color: #000000;
+}
+
+#small-landscape {
+  left: 0;
+  top: 0;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: none;
+  z-index: 100;
+  position: absolute;
+}
+
+#medium-landscape {
+  left: 0;
+  top: 0;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: none;
+  z-index: 100;
+  position: absolute;
+}
+
+#large-landscape {
+  left: 0;
+  top: 0;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: none;
+  z-index: 100;
+  position: absolute;
 }
 
 @media (min-width: 60.875em) {
   #large {
     visibility: visible;
-    overflow: visible;
-    display: block;
   }
 
   html {
@@ -1276,8 +1386,6 @@ img {
 @media (min-width: 53.125em) and (max-width: 60.8125em) {
   #medium {
     visibility: visible;
-    overflow: visible;
-    display: block;
   }
 
   html {
@@ -1310,8 +1418,6 @@ img {
 @media (min-width: 33.125em) and (max-width: 53.0625em) {
   #small {
     visibility: visible;
-    overflow: visible;
-    display: block;
   }
 
   html {
@@ -1401,8 +1507,6 @@ img {
 @media (max-width: 33.0625em) {
   #x-small {
     visibility: visible;
-    overflow: visible;
-    display: block;
   }
 
   html {
@@ -1488,4 +1592,40 @@ img {
   /*////////////NAV COLUMN////////////*/
   /*////////////SIDEBAR COLUMN////////////*/
   /*////////////FOTER////////////*/
+}
+@media (min-width: 33.125em) and (max-width: 53.0625em) and (orientation: landscape) {
+  #small-landscape {
+    visibility: visible;
+  }
+
+  /*contact*/
+  #overlay #contactForm {
+    width: 95%;
+    max-width: 500px;
+  }
+  #overlay #contactForm .inner {
+    max-height: 180px;
+    overflow: auto;
+  }
+  #overlay #contactForm .image {
+    display: none;
+  }
+}
+@media (max-width: 33.0625em) and (orientation: landscape) {
+  #x-small-landscape {
+    visibility: visible;
+  }
+
+  /*contact*/
+  #overlay #contactForm {
+    width: 95%;
+    max-width: 500px;
+  }
+  #overlay #contactForm .inner {
+    max-height: 180px;
+    overflow: auto;
+  }
+  #overlay #contactForm .image {
+    display: none;
+  }
 }

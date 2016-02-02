@@ -27,7 +27,6 @@
     #items
     $itemsQuery = mysql_query("SELECT * FROM fleaMarket");
     $numRows = mysql_num_rows($itemsQuery);
-    
 
     // number of rows to show per page
     $rowsperpage = 10;
@@ -60,53 +59,17 @@
     $offset = ($currentpage - 1) * $rowsperpage;
 
     // get the info from the db 
-    $sql = "SELECT * FROM fleaMarket LIMIT $offset, $rowsperpage";
+    $sql = "SELECT * FROM fleaMarket ORDER BY ID desc LIMIT $offset, $rowsperpage";
+    // $sql = "SELECT * FROM (SELECT * FROM fleaMarket ORDER BY ID LIMIT $offset, $rowsperpage) AS tmp_table ORDER BY sold";
     $result = mysql_query($sql, $connection);
 
     #close connection
     mysql_close($connection);
 
-// /******  build the pagination links ******/
-// // range of num links to show
-// $range = 3;
+    // net page
+    $nextpage = $currentpage + 1;
 
-// // if not on page 1, don't show back links
-// if ($currentpage > 1) {
-//    // show << link to go back to page 1
-//    echo " <a href='{$_SERVER['PHP_SELF']}?currentpage=1'><<</a> ";
-//    // get previous page num
-//    $prevpage = $currentpage - 1;
-//    // show < link to go back to 1 page
-//    echo " <a href='{$_SERVER['PHP_SELF']}?currentpage=$prevpage'><</a> ";
-// } // end if 
 
-// // loop to show links to range of pages around current page
-// for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++) {
-//    // if it's a valid page number...
-//    if (($x > 0) && ($x <= $totalpages)) {
-//       // if we're on current page...
-//       if ($x == $currentpage) {
-//          // 'highlight' it but don't make a link
-//          echo " [<b>$x</b>] ";
-//       // if not current page...
-//       } else {
-//          // make it a link
-//          echo " <a href='{$_SERVER['PHP_SELF']}?currentpage=$x'>$x</a> ";
-//       } // end else
-//    } // end if 
-// } // end for
-                 
-// // if not on last page, show forward and last page links        
-// if ($currentpage != $totalpages) {
-//    // get next page
-//    $nextpage = $currentpage + 1;
-//     // echo forward link for next page 
-//    echo " <a href='{$_SERVER['PHP_SELF']}?currentpage=$nextpage'>></a> ";
-//    // echo forward link for lastpage
-//    echo " <a href='{$_SERVER['PHP_SELF']}?currentpage=$totalpages'>>></a> ";
-// } // end if
-// /****** end build pagination links ******/
-   
 ?>
      
             <!--====== MAIN ======-->        
@@ -130,7 +93,7 @@ while ($row = mysql_fetch_assoc($result)) {
 
 ?>
 
-                        <a href="#" data-images="<?=$row['images']?>" title="<?=$row['name']?>"><img src="img/<?=$coverImage?>.jpg" width="" height="" alt=""></a>
+                        <a href="#" data-images="<?=$row['images']?>" title="<?=$row['name']?>"><img src="img/<?=$coverImage?>.jpg" width="" height="" alt="<?=$row['name']?>"></a>
                         </figure>
                     </div>
 
@@ -180,11 +143,10 @@ while ($row = mysql_fetch_assoc($result)) {
                     </div>
                 
                     <!-- comprar item -->
-                    <form method="post" action="/flea-market/contact.php" class="itemForm">
+                    <form method="get" action="/flea-market/contact.php" class="itemForm">
                         <fieldset>
-                        <input type="hidden" name="article" value="<?=$row['name']?>">
-                        <input type="hidden" name="article" value="<?=$row['link']?>">
-                        <button type="submit" name="comprar" value="comprar" class="submitButton contact"><span>contactar</span></button>
+                        <input type="hidden" name="ID" value="<?=$row['ID']?>">
+                        <button type="submit" name="comprar" value="comprar" class="submitButton contact" <?=($row['sold'] == true ? ' disabled' : '')?>><span>contactar</span></button>
                         </fieldset>
                     </form>
                     <!-- comprar item -->
@@ -201,10 +163,15 @@ while ($row = mysql_fetch_assoc($result)) {
                 </ul>
                 <!-- listing -->
 
+<?
+if ($currentpage != $totalpages) {
+?>
                 <p class="viewMore">
-                    <a href="test_page01.htm" class="viewMore_link">ver más</a>
-                </p>
-                
+                    <a href="/flea-market/?currentpage=<?=$nextpage?>" class="viewMore_link">ver más</a>
+                </p>           
+<?
+}
+?>          
             
             </main>
             <!--====== MAIN ======-->

@@ -1,4 +1,4 @@
-/*
+/*!
  * FancyBox - jQuery Plugin
  * Simple and fancy lightbox alternative
  *
@@ -170,6 +170,7 @@
   display: none;
 }
 
+/**/
 #fancybox-left {
   left: 0;
 }

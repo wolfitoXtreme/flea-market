@@ -97,6 +97,7 @@
     width: $width;
     height: pem($height, $local_fSize);
     font: normal #{pem($local_fSize, $base)}/nth($fSize_button, 2) $fFamily_button;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: $button_fColor;
     text-decoration: none;
@@ -120,7 +121,7 @@
     
     
     span {
-        text-shadow: rgba(0, 0, 0, 0.21) -1px -1px 0;
+        text-shadow: rgba(0, 0, 0, 0.31) -1px -1px 0;
         white-space: nowrap;
         display: $display;
         overflow: visible;
@@ -322,6 +323,7 @@
             bottom: 0;
             padding: pem(10px);
             display: block;
+            white-space: nowrap;
             background-color: #ffffff;
             position: fixed;
             z-index: 200;
